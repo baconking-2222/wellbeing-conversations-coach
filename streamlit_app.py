@@ -822,11 +822,13 @@ if page.startswith("🎤"):
                 st.session_state.active_session = None
                 st.rerun()
         with col_open:
-            # Same-tab navigation — st.link_button forces target=_blank,
-            # which creates the "two tab" feel. A plain anchor with default
-            # target stays in the current tab.
+            # Same-tab navigation, but we have to break out of Streamlit's
+            # sandbox iframe (st.html wraps everything in one). target="_top"
+            # navigates the whole browser tab, so the URL bar actually shows
+            # the HF Spaces voice page domain and mic permission applies to
+            # the correct origin.
             st.html(
-                f'<a href="{voice_url}" class="kb-primary-link-btn">'
+                f'<a href="{voice_url}" target="_top" class="kb-primary-link-btn">'
                 f'🎤 Open voice session ▶</a>'
             )
 
