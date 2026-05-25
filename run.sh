@@ -47,4 +47,4 @@ trap "echo; echo Stopping bridge…; kill $BRIDGE_PID 2>/dev/null || true" EXIT 
 # Foreground: Streamlit (so Ctrl+C kills both)
 echo
 echo "Starting Streamlit on http://localhost:8511 …"
-python3 -m streamlit run streamlit_app.py --server.port 8511
+python3 -m streamlit run streamlit_app.py --server.port 8511 --server.headless true
