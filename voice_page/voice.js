@@ -356,7 +356,19 @@ async function startSession() {
       }
     });
   } catch (e) {
-    failWith(`Couldn't start the session: ${e.message}`);
+    const msg = e?.message || String(e);
+    const name = e?.name || "";
+    if (name === "NotAllowedError" || /permission|denied/i.test(msg)) {
+      failWith(
+        "Microphone access was blocked by the browser. Click the padlock icon in your address bar, set Microphone to Allow, then click Try again."
+      );
+    } else if (name === "NotFoundError" || /no.*device/i.test(msg)) {
+      failWith(
+        "No microphone found. Check that your mic is plugged in and selected as the input device in your system settings."
+      );
+    } else {
+      failWith(`Couldn't start the session: ${msg}`);
+    }
   }
 }
 
