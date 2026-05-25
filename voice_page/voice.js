@@ -48,6 +48,18 @@ window.addEventListener("unhandledrejection", (e) => {
   failWith(`Promise rejected: ${e.reason?.message || String(e.reason)}`);
 });
 
+// Same-tab navigation back to the Streamlit hub. If history isn't usable
+// (e.g. user landed here directly), fall back to root.
+function goBack() {
+  if (window.history.length > 1) {
+    window.history.back();
+  } else {
+    location.href = "/";
+  }
+}
+// Expose for inline onclick handlers
+window.goBack = goBack;
+
 if (!sessionId) {
   failWith("No session id in the URL. Open the voice page from the Streamlit hub.");
 }

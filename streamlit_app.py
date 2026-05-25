@@ -359,6 +359,30 @@ section[data-testid="stSidebar"] {
     margin-left: 6px;
 }
 
+/* Same-tab link styled as a primary button */
+.kb-primary-link-btn {
+    display: block;
+    text-align: center;
+    background: var(--light-green) !important;
+    color: var(--black-blue) !important;
+    border: 3px solid var(--black-blue) !important;
+    border-radius: 30px;
+    padding: 10px 22px;
+    font-weight: 700;
+    font-size: 1rem;
+    text-decoration: none !important;
+    box-shadow: 0 3px 0 rgba(0,31,52,0.16);
+    transition: background 0.15s ease, transform 0.1s ease;
+    font-family: 'Epilogue', 'Inter', sans-serif;
+}
+.kb-primary-link-btn:hover {
+    background: var(--pastel-green) !important;
+    color: var(--black-blue) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 0 rgba(0,31,52,0.18);
+    text-decoration: none !important;
+}
+
 /* ---- Strong subtitle under the mode picker ---- */
 .kb-mode-subtitle {
     background: white;
@@ -798,11 +822,12 @@ if page.startswith("🎤"):
                 st.session_state.active_session = None
                 st.rerun()
         with col_open:
-            st.link_button(
-                "🎤 Open voice session ▶",
-                voice_url,
-                use_container_width=True,
-                type="primary",
+            # Same-tab navigation — st.link_button forces target=_blank,
+            # which creates the "two tab" feel. A plain anchor with default
+            # target stays in the current tab.
+            st.html(
+                f'<a href="{voice_url}" class="kb-primary-link-btn">'
+                f'🎤 Open voice session ▶</a>'
             )
 
         st.markdown("<div style='height:10px;'></div>", unsafe_allow_html=True)
@@ -860,11 +885,10 @@ if page.startswith("🎤"):
             if persona.get("voice_notes"):
                 st.markdown(f"**Voice notes.** {persona['voice_notes']}")
 
-        # Embedded voice (localhost only - on cloud the iframe blocks mic)
         st.markdown("<div style='height:14px;'></div>", unsafe_allow_html=True)
         st.caption(
-            "Click **🎤 Open voice session ▶** above to start. The voice "
-            "page opens in a new tab where your microphone works."
+            "Click **🎤 Open voice session ▶** above to start. You can "
+            "navigate back to the scenarios list once you are done."
         )
 
 
