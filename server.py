@@ -228,12 +228,11 @@ def _build_live_config(cfg: dict, lang_code: str) -> gtypes.LiveConnectConfig:
         realtime_input_config=gtypes.RealtimeInputConfig(
             automatic_activity_detection=gtypes.AutomaticActivityDetection(
                 disabled=False,
-                # Wait 600ms of silence (instead of the default ~1s) before
-                # deciding the teacher has finished their turn.
-                silence_duration_ms=600,
-                # Include a bit of audio before VAD triggers so we don't clip
-                # the start of words.
-                prefix_padding_ms=200,
+                # 400ms of silence before deciding the teacher is done.
+                # Default is ~1s; we trade off a bit of "did they finish
+                # speaking?" certainty for noticeably snappier replies.
+                silence_duration_ms=400,
+                prefix_padding_ms=150,
             )
         ),
     )

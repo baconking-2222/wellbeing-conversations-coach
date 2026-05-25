@@ -811,7 +811,6 @@ if page.startswith("🎤"):
         subtitle_bits = [persona["display_name"]]
         if persona.get("year") and persona["year"].lower() not in persona["display_name"].lower():
             subtitle_bits.append(persona["year"])
-        subtitle_bits.append(f"voice: {catalog_realtime.voice_for(persona['id'])}")
         _hero(scenario["title"], " · ".join(subtitle_bits))
 
         if scenario.get("is_red_flag"):
