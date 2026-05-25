@@ -550,8 +550,11 @@ def _render_scenario_card(scenario: dict, mode: str) -> None:
     if scenario.get("is_red_flag"):
         pills.append("<span class='kb-pill redflag'>⚠ SAFEGUARDING</span>")
     pills.append(f"<span class='kb-pill persona'>{html.escape(persona['display_name'])}</span>")
-    if persona.get("year"):
-        pills.append(f"<span class='kb-pill age'>{html.escape(persona['year'])}</span>")
+    # Only add the year pill when the display name doesn't already include it
+    # (class personas like "A Year 4 class" already convey the year).
+    year = persona.get("year")
+    if year and year.lower() not in persona["display_name"].lower():
+        pills.append(f"<span class='kb-pill age'>{html.escape(year)}</span>")
     if mode == "mode1" and activity:
         pills.append(f"<span class='kb-pill activity'>{html.escape(activity.name)}</span>")
     if mode == "mode2":
