@@ -48,6 +48,36 @@ window.addEventListener("unhandledrejection", (e) => {
   failWith(`Promise rejected: ${e.reason?.message || String(e.reason)}`);
 });
 
+// Check browser microphone permission state and surface a fix banner if denied.
+// Note: browsers do NOT allow JS to re-prompt after a user denies. The only
+// way to recover is the user manually flipping the setting in browser config.
+async function checkMicPermission() {
+  if (!navigator.permissions || !navigator.permissions.query) return;
+  try {
+    const status = await navigator.permissions.query({ name: "microphone" });
+    const warn = $("brief-mic-warning");
+    const startBtn = $("start-button");
+    function apply() {
+      if (status.state === "denied") {
+        warn.style.display = "";
+        if (startBtn) {
+          startBtn.disabled = true;
+          startBtn.title = "Microphone blocked. See banner above.";
+        }
+      } else {
+        warn.style.display = "none";
+        if (startBtn && !startBtn.dataset.consentLocked) {
+          startBtn.disabled = false;
+        }
+      }
+    }
+    apply();
+    status.onchange = apply;
+  } catch (e) {
+    console.warn("[komodo-trainer] permission query unsupported", e);
+  }
+}
+
 // Same-tab navigation back to the Streamlit hub. If history isn't usable
 // (e.g. user landed here directly), fall back to root.
 function goBack() {
@@ -272,6 +302,10 @@ function renderBrief() {
   $("start-button").addEventListener("click", startSession);
   $("mute-button").addEventListener("click", toggleMute);
   $("end-button").addEventListener("click", endSession);
+
+  // Proactive mic permission check — if already denied, surface the fix
+  // banner immediately so users don't get confused after clicking Start.
+  checkMicPermission();
 
   $("live-title").textContent = s.title;
   $("live-persona").textContent = `${p.display_name}${p.year ? ` • ${p.year}` : ""} • voice: ${sessionCfg.voice}`;
