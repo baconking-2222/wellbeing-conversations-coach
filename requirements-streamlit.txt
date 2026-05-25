@@ -1,5 +1,6 @@
 # Used by Streamlit Community Cloud.
-# Only the packages the Streamlit hub actually needs.
+# Only the packages the Streamlit hub actually needs (it now talks to the
+# bridge via HTTP so Anthropic + Google SDKs are not required here).
 streamlit>=1.36
-anthropic>=0.40
 python-dotenv>=1.0
+httpx>=0.27

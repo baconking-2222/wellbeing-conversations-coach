@@ -15,19 +15,60 @@ import json
 import os
 from pathlib import Path
 
+import httpx
 import streamlit as st
 import streamlit.components.v1 as components
 from dotenv import load_dotenv
 
 import catalog
 from catalog import realtime as catalog_realtime
-import db
-from scoring.score import score_transcript
 
 load_dotenv(override=True)
-db.init_db()
 
 BRIDGE_URL = os.environ.get("KOMODO_BRIDGE_URL", "http://localhost:8000")
+
+
+# ----- Thin HTTP client wrapping the bridge's session API -----
+# This replaces the local db.py calls. The bridge (HF Spaces in prod, localhost
+# in dev) is the single source of truth for sessions, so Streamlit Cloud and
+# the voice page see the same data.
+def bridge_create_session(scenario_id: str) -> str:
+    r = httpx.post(f"{BRIDGE_URL}/api/sessions/create",
+                   json={"scenario_id": scenario_id}, timeout=15)
+    r.raise_for_status()
+    return r.json()["session_id"]
+
+
+def bridge_list_sessions(limit: int = 50) -> list[dict]:
+    try:
+        r = httpx.get(f"{BRIDGE_URL}/api/sessions",
+                      params={"limit": limit}, timeout=15)
+        r.raise_for_status()
+        return r.json().get("sessions", [])
+    except Exception as e:
+        st.warning(f"Couldn't reach the bridge: {e}")
+        return []
+
+
+def bridge_get_session(session_id: str) -> dict | None:
+    """Full session row including transcript + parsed scorecard."""
+    try:
+        r = httpx.get(f"{BRIDGE_URL}/api/session/{session_id}/full", timeout=15)
+        if r.status_code == 404:
+            return None
+        r.raise_for_status()
+        return r.json()
+    except Exception as e:
+        st.warning(f"Couldn't reach the bridge: {e}")
+        return None
+
+
+def bridge_delete_session(session_id: str) -> None:
+    httpx.delete(f"{BRIDGE_URL}/api/sessions/{session_id}", timeout=15)
+
+
+def bridge_delete_all_sessions() -> None:
+    httpx.delete(f"{BRIDGE_URL}/api/sessions", timeout=15)
 
 ROOT = Path(__file__).parent
 ASSETS = ROOT / "assets"
@@ -529,12 +570,11 @@ def _render_scenario_card(scenario: dict, mode: str) -> None:
             f"<div class='kb-card-brief'>{html.escape(scenario['brief'])}</div>"
         )
         if st.button("Start ▶", key=f"start-{scenario['id']}", use_container_width=True):
-            sid = db.create_session(
-                mode=mode,
-                scenario=scenario,
-                persona_id=scenario["persona_id"],
-                activity_id=scenario.get("activity_id"),
-            )
+            try:
+                sid = bridge_create_session(scenario["id"])
+            except Exception as e:
+                st.error(f"Couldn't start session: {e}")
+                st.stop()
             st.session_state.active_session = {
                 "session_id": sid,
                 "scenario_id": scenario["id"],
@@ -773,7 +813,7 @@ else:
         "Past sessions you have scored. Click any to revisit the scorecard and transcript.",
     )
 
-    all_rows = db.list_sessions()
+    all_rows = bridge_list_sessions()
     # Only show fully scored sessions
     rows = [r for r in all_rows if r["status"] == "scored" and r["overall_score"] is not None]
 
@@ -790,7 +830,7 @@ else:
         c1, c2 = st.columns([1, 1])
         with c1:
             if st.button("Yes, delete everything", use_container_width=True):
-                db.delete_all_sessions()
+                bridge_delete_all_sessions()
                 st.session_state._confirm_clear = False
                 st.session_state.pop("_view_session", None)
                 st.rerun()
@@ -830,13 +870,13 @@ else:
                         st.rerun()
                 with cols[3]:
                     if st.button("🗑️", key=f"del-{r['id']}", use_container_width=True, type="secondary"):
-                        db.delete_session(r["id"])
+                        bridge_delete_session(r["id"])
                         if st.session_state.get("_view_session") == r["id"]:
                             st.session_state.pop("_view_session", None)
                         st.rerun()
 
         if st.session_state.get("_view_session"):
-            row = db.get_session(st.session_state._view_session)
+            row = bridge_get_session(st.session_state._view_session)
             if row and row.get("scorecard"):
                 st.markdown("---")
                 st.markdown(f"### {row['scenario_title']}")

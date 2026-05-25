@@ -93,6 +93,51 @@ def voice_index():
 app.mount("/voice", StaticFiles(directory=VOICE_DIR, html=True), name="voice")
 
 
+class CreateSessionRequest(BaseModel):
+    scenario_id: str
+
+
+@app.post("/api/sessions/create")
+def create_session(req: CreateSessionRequest):
+    """Create a new session row. Called by the Streamlit hub when a user
+    picks a scenario, so the bridge (not the hub) owns session state."""
+    cfg = build_realtime_config(req.scenario_id)
+    sid = db.create_session(
+        mode=cfg["mode"],
+        scenario=cfg["scenario"],
+        persona_id=cfg["persona"]["id"],
+        activity_id=cfg["scenario"].get("activity_id"),
+    )
+    return {"session_id": sid, "scenario_id": req.scenario_id, "mode": cfg["mode"]}
+
+
+@app.get("/api/sessions")
+def list_sessions(limit: int = 50):
+    """List recent sessions for the Streamlit hub's History page."""
+    return {"sessions": db.list_sessions(limit=limit)}
+
+
+@app.delete("/api/sessions/{session_id}")
+def delete_one(session_id: str):
+    db.delete_session(session_id)
+    return {"ok": True}
+
+
+@app.delete("/api/sessions")
+def delete_all():
+    db.delete_all_sessions()
+    return {"ok": True}
+
+
+@app.get("/api/session/{session_id}/full")
+def get_session_full(session_id: str):
+    """Return the full DB row for the History detail view."""
+    row = db.get_session(session_id)
+    if not row:
+        raise HTTPException(404, "Session not found")
+    return row
+
+
 @app.get("/api/session/{session_id}")
 def get_session(session_id: str):
     row = db.get_session(session_id)
