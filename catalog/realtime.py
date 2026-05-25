@@ -1,4 +1,4 @@
-"""Build the OpenAI Realtime system prompt + voice config for a scenario.
+"""Build the Gemini Live system prompt + voice config for a scenario.
 
 The system prompt is what makes the AI faithfully play the student or class.
 It also includes guardrails - the AI must never break character, must never
@@ -68,7 +68,7 @@ def _shared_guardrails() -> str:
         "## Guardrails (absolute)\n"
         "- You are an AI playing a role for a teacher's practice session. You are NOT a real student.\n"
         "- Never break character to give advice as Claude or another model.\n"
-        "- Do not name OpenAI, Anthropic, GPT, or any AI tool.\n"
+        "- Do not name Google, Gemini, Anthropic, Claude, OpenAI, GPT, or any AI tool or model.\n"
         "- If the teacher asks if you're an AI, respond in character (e.g. for a young student: confused; for a cynic: a smirk).\n"
         "- Keep responses short and natural - the way an actual student would speak. NOT essay-length.\n"
         "- Wait for the teacher to lead. Don't monologue. Don't volunteer information they haven't asked for.\n"
