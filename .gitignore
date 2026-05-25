@@ -1,0 +1,12 @@
+.env
+.env.*
+!.env.example
+__pycache__/
+*.pyc
+data/sessions.sqlite
+data/sessions.sqlite-journal
+data/
+.venv/
+.DS_Store
+*.bak
+/tmp/

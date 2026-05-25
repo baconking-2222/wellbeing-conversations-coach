@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Wellbeing Conversations Coach</title>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/voice/style.css">
+</head>
+<body>
+
+<!-- LOADING STATE -->
+<div id="view-loading" class="view active">
+  <div class="hero">
+    <div class="spinner"></div>
+    <h1>Loading scenario…</h1>
+    <p class="muted">Reading session config from the bridge.</p>
+  </div>
+</div>
+
+<!-- ERROR STATE -->
+<div id="view-error" class="view">
+  <div class="hero">
+    <h1>Something went wrong</h1>
+    <p id="error-message" class="muted"></p>
+    <button class="btn btn-primary" onclick="location.reload()">Try again</button>
+  </div>
+</div>
+
+<!-- PRE-SESSION BRIEF -->
+<div id="view-brief" class="view">
+  <div class="topbar">
+    <span class="logo-badge">💛 Wellbeing Coach</span>
+    <span class="mode-pill" id="brief-mode-pill"></span>
+  </div>
+
+  <div class="card hero">
+    <h1 id="brief-title"></h1>
+    <div class="meta-row">
+      <span class="meta-pill" id="brief-persona"></span>
+      <span class="meta-pill" id="brief-duration"></span>
+      <span class="meta-pill" id="brief-voice">voice: , </span>
+    </div>
+    <div class="brief-block" id="brief-text"></div>
+  </div>
+
+  <div id="brief-redflag" class="card alert" style="display:none">
+    <h3>⚠️ Safeguarding scenario</h3>
+    <p>This session contains a moment that requires recognition and escalation, not a flash-card activity. By starting, you acknowledge that this is a training scenario designed to rehearse safeguarding judgement.</p>
+    <label class="checkbox">
+      <input type="checkbox" id="consent-check" />
+      I'm a staff member, I've read the above, and I'm ready to start.
+    </label>
+  </div>
+
+  <div class="card">
+    <h3>📝 What to watch for</h3>
+    <ul id="brief-watchfor"></ul>
+  </div>
+
+  <div id="brief-activity-card" class="card" style="display:none">
+    <h3 id="brief-activity-title">🎴 Activity: , </h3>
+    <p id="brief-activity-objective" class="muted"></p>
+    <div class="instructions" id="brief-activity-instructions"></div>
+  </div>
+
+  <div class="card">
+    <h3>🌐 Language</h3>
+    <p class="muted small" style="margin: 4px 0 12px;">Both you and the AI will use this language. Gemini sometimes geo-detects the wrong one, so set it explicitly. Your choice is remembered for next time.</p>
+    <select id="lang-select" class="lang-select">
+      <optgroup label="English">
+        <option value="en-NZ">English (New Zealand)</option>
+        <option value="en-AU">English (Australia)</option>
+        <option value="en-GB">English (UK)</option>
+        <option value="en-US" selected>English (US)</option>
+      </optgroup>
+      <optgroup label="Other">
+        <option value="es-ES">Español (España)</option>
+        <option value="es-US">Español (US)</option>
+        <option value="fr-FR">Français</option>
+        <option value="de-DE">Deutsch</option>
+        <option value="it-IT">Italiano</option>
+        <option value="pt-BR">Português (Brasil)</option>
+        <option value="nl-NL">Nederlands</option>
+        <option value="pl-PL">Polski</option>
+        <option value="ru-RU">Русский</option>
+        <option value="tr-TR">Türkçe</option>
+        <option value="ar-XA">العربية</option>
+        <option value="hi-IN">हिन्दी</option>
+        <option value="zh-CN">中文 (简体)</option>
+        <option value="ja-JP">日本語</option>
+        <option value="ko-KR">한국어</option>
+        <option value="th-TH">ไทย</option>
+        <option value="vi-VN">Tiếng Việt</option>
+        <option value="id-ID">Bahasa Indonesia</option>
+      </optgroup>
+    </select>
+  </div>
+
+  <div class="card note">
+    <h3>🎤 Before you start</h3>
+    <ul>
+      <li><strong>You'll be asked for mic permission.</strong> Allow it when your browser asks.</li>
+      <li><strong>The AI voice is adult.</strong> Gemini's voice options don't include a convincing child voice yet. The realism comes from the script, not the timbre.</li>
+      <li><strong>Speak naturally.</strong> No need to push a button. The AI uses voice activity detection to know when to respond.</li>
+      <li><strong>End the session when you're ready.</strong> The scorecard appears here right after.</li>
+    </ul>
+  </div>
+
+  <div class="action-row">
+    <div></div>
+    <button class="btn btn-primary" id="start-button">Start voice session ▶</button>
+  </div>
+</div>
+
+<!-- LIVE SESSION -->
+<div id="view-live" class="view">
+  <div class="topbar">
+    <span class="logo-badge">💛 Wellbeing Coach</span>
+    <span class="session-timer" id="session-timer">00:00</span>
+  </div>
+
+  <div class="live-stage">
+    <div class="orb-wrap">
+      <div class="orb" id="orb"></div>
+      <div class="orb-label" id="orb-label">Connecting…</div>
+    </div>
+
+    <div class="live-meta">
+      <h2 id="live-title"></h2>
+      <p class="muted" id="live-persona"></p>
+    </div>
+
+    <div class="live-transcript" id="live-transcript">
+      <p class="muted">Transcript will appear here as you talk.</p>
+    </div>
+
+    <div class="live-controls">
+      <button class="btn btn-secondary" id="mute-button">🎤 Mute</button>
+      <button class="btn btn-danger" id="end-button">End session and score ▶</button>
+    </div>
+  </div>
+</div>
+
+<!-- SCORING STATE -->
+<div id="view-scoring" class="view">
+  <div class="hero">
+    <div class="spinner"></div>
+    <h1>Scoring your session…</h1>
+    <p class="muted">Claude is reviewing the transcript. This takes about 10 seconds.</p>
+  </div>
+</div>
+
+<!-- RESULTS -->
+<div id="view-results" class="view">
+  <div class="topbar">
+    <span class="logo-badge">💛 Wellbeing Coach</span>
+    <span class="mode-pill" id="results-mode-pill"></span>
+  </div>
+
+  <div class="card hero">
+    <div class="muted small uppercase">Overall</div>
+    <div class="overall-row">
+      <div class="overall-score" id="overall-score"></div>
+      <div class="score-bar"><div class="score-fill" id="overall-fill"></div></div>
+    </div>
+    <h2 id="results-headline"></h2>
+  </div>
+
+  <div id="results-safeguarding" class="card alert" style="display:none">
+    <h3>⚠️ Safeguarding moment</h3>
+    <p id="safeguarding-note"></p>
+  </div>
+
+  <div class="card-row">
+    <div class="card">
+      <h3>✅ What worked</h3>
+      <ul id="what-worked"></ul>
+    </div>
+    <div class="card">
+      <h3>🎯 What to try next</h3>
+      <ul id="what-to-try"></ul>
+    </div>
+  </div>
+
+  <h3 class="section-heading">📋 Criterion-by-criterion</h3>
+  <div id="criteria-list"></div>
+
+  <details class="card">
+    <summary><strong>📜 Show transcript</strong></summary>
+    <pre id="results-transcript" class="transcript-pre"></pre>
+  </details>
+
+  <div class="action-row">
+    <div></div>
+    <button class="btn btn-primary" onclick="location.reload()">Practise again ↻</button>
+  </div>
+</div>
+
+<script src="/voice/voice.js"></script>
+</body>
+</html>

@@ -1,0 +1,117 @@
+{
+  "five_senses_checkin": {
+    "best_for": ["grounding", "transitions", "general anxiety", "any age"],
+    "fit_notes": "The universal grounding activity. Hard to get wrong. Works for almost any state except acute dysregulation where the student can't focus.",
+    "avoid_if": ["student is too dysregulated to focus", "student is shut down and won't engage verbally"]
+  },
+  "feeling_scan": {
+    "best_for": ["emotional awareness building", "calm-but-not-okay states", "reflective moments"],
+    "fit_notes": "Requires the student to sit still and turn inward. Good when they're calm enough to notice. Not for the middle of a meltdown.",
+    "avoid_if": ["acute distress", "student is restless", "student lacks emotional vocabulary entirely"]
+  },
+  "sensory_stomp_shake": {
+    "best_for": ["excess energy", "post-recess primary classes", "pre-test fizz", "frustrated kids"],
+    "fit_notes": "Jr only. The go-to for 'they cannot sit still'. Loud, physical, joyful. Bad fit for older students or shutdown states.",
+    "avoid_if": ["secondary students", "shutdown student", "any setting where loud movement is inappropriate"]
+  },
+  "what_keeps_me_well": {
+    "best_for": ["preventative work", "longer pastoral sessions", "reflective seniors"],
+    "fit_notes": "20-minute reflective activity. Not for an in-the-moment crisis - for proactive wellbeing time.",
+    "avoid_if": ["acute distress", "time-pressured moments", "student isn't ready to reflect"]
+  },
+  "personal_cheerleader": {
+    "best_for": ["low self-worth", "after a setback", "building confidence over time"],
+    "fit_notes": "Strong for self-esteem work. Can feel cringe if rushed or done with the wrong tone for Sr students.",
+    "avoid_if": ["acute distress", "student is mid-shutdown"]
+  },
+  "positive_outlook": {
+    "best_for": ["whole-class openers", "low-stakes connection moments", "Monday mornings"],
+    "fit_notes": "Quick, social, low-risk. Great class-warmer. Not deep work.",
+    "avoid_if": ["a student in real distress (this is too light)"]
+  },
+  "highlight_reel": {
+    "best_for": ["end of day", "low-mood states", "gratitude practice", "reframing a tough day"],
+    "fit_notes": "Useful for shifting perspective. If a student literally cannot think of anything positive, don't push - pivot.",
+    "avoid_if": ["student is in active distress", "student is mid-grief or major life event (can feel dismissive)"]
+  },
+  "guided_imagery": {
+    "best_for": ["anxious seniors", "calm-down before sleep/test", "students who like quiet"],
+    "fit_notes": "Sr-leaning. Requires sustained focus. Excellent for anxiety if the student can settle.",
+    "avoid_if": ["dysregulated student", "student with trauma triggered by closing eyes / visualisation", "noisy environment"]
+  },
+  "five_finger_breathing": {
+    "best_for": ["anxiety", "in-the-moment regulation", "discreet self-regulation (can be done quietly at a desk)"],
+    "fit_notes": "Universal. Combines breath + tactile + focus. Excellent emergency tool.",
+    "avoid_if": []
+  },
+  "gratitude_chain": {
+    "best_for": ["class openers", "low-mood reset", "social connection"],
+    "fit_notes": "Pair-share format. Quick and social. Not deep work.",
+    "avoid_if": ["student who is socially anxious about peer interaction in that moment"]
+  },
+  "butterfly_hugs": {
+    "best_for": ["anxiety", "panic-adjacent states", "calm down after distress"],
+    "fit_notes": "Powerful nervous-system regulator using bilateral stimulation. Brief explanation important - looks unusual.",
+    "avoid_if": ["student who has been told to avoid self-soothing of this type for therapeutic reasons (rare)"]
+  },
+  "draw_it_out": {
+    "best_for": ["Jr students who can't verbalise feelings", "shutdown states (gives a non-verbal outlet)", "after upset"],
+    "fit_notes": "Jr only. Externalises the emotion. Great for kids who go quiet when asked 'what's wrong'.",
+    "avoid_if": ["secondary students (can feel infantilising)"]
+  },
+  "inner_weather_report": {
+    "best_for": ["emotional vocabulary building", "Jr check-ins", "morning settles"],
+    "fit_notes": "Jr only. Weather metaphor makes feelings safe to name.",
+    "avoid_if": ["secondary students"]
+  },
+  "tense_release": {
+    "best_for": ["physical tension", "pre-test", "students who hold stress in the body"],
+    "fit_notes": "Progressive muscle relaxation. Works for any age. Needs a calm space.",
+    "avoid_if": ["student with chronic pain (consult guidance)", "noisy distracting environment"]
+  },
+  "sensory_scrunch": {
+    "best_for": ["frustration", "excess energy with limited space", "discreet release at a desk"],
+    "fit_notes": "Tactile release. Less performative than stomp & shake - works for Sr too.",
+    "avoid_if": ["acute distress where the action might escalate (rare)"]
+  },
+  "shape_shifting": {
+    "best_for": ["primary classes with energy", "playful regulation", "imagination-friendly groups"],
+    "fit_notes": "Jr only. Joyful and silly. Good for releasing tension through play.",
+    "avoid_if": ["secondary students", "student feeling self-conscious about being silly"]
+  },
+  "appreciation_postits": {
+    "best_for": ["building class culture", "after conflict", "end of term", "secondary form time"],
+    "fit_notes": "Sr-friendly. Takes 10 minutes but builds belonging. Specific compliments only - coach against appearance comments.",
+    "avoid_if": ["class with ongoing serious peer conflict (could be weaponised)", "very small group where anonymity isn't possible"]
+  },
+  "circle_of_safety": {
+    "best_for": ["seniors building support awareness", "after-incident reflection", "transitions (new school, new year)"],
+    "fit_notes": "Sr. Helps students externalise who they can go to. Watch for students who can't fill it in - that's information.",
+    "avoid_if": ["acute distress", "without follow-up plan if a student reveals they have no support"]
+  },
+  "tension_tamers": {
+    "best_for": ["primary fidget", "energy regulation with choice", "students who want options"],
+    "fit_notes": "Jr. Choice of movement gives autonomy. Quick.",
+    "avoid_if": ["secondary students"]
+  },
+  "colour_breathing": {
+    "best_for": ["anxiety", "calm down", "students who respond to visual imagery"],
+    "fit_notes": "Universal. Adds visual element to breathwork. Calming and creative.",
+    "avoid_if": []
+  },
+  "body_scan": {
+    "best_for": ["pre-sleep", "post-exercise", "anxious students who like structure"],
+    "fit_notes": "Universal. Takes 6 min. Requires a calm-ish setting.",
+    "avoid_if": ["dysregulated student who can't sit still", "trauma-history student where body focus is contraindicated (consult counsellor)"]
+  },
+  "mindful_motion": {
+    "best_for": ["winding down", "after a hard moment", "post-distress reset"],
+    "fit_notes": "Needs props or a YouTube video. Calming and passive - great when student is exhausted.",
+    "avoid_if": ["no available calming visual stimulus"]
+  },
+  "mindful_listening_walk": {
+    "best_for": ["whole-class outdoor breaks", "transitions back to focus", "neurodivergent students who like sensory structure"],
+    "fit_notes": "Takes 10 min and needs space to walk. Great for resetting after lunch.",
+    "avoid_if": ["short windows of time", "no quiet walkable space available"]
+  }
+}

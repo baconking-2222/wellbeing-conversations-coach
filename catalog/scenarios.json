@@ -1,0 +1,113 @@
+{
+  "mode1": [
+    {
+      "id": "m1-monday-yr4-settle",
+      "title": "Monday morning settle",
+      "persona_id": "class-jr-yr4",
+      "activity_id": "five_senses_checkin",
+      "duration_minutes": 6,
+      "brief": "It's Monday morning, Year 4. The class came in chatty after a wet-weather break. You've got 4 minutes before the maths lesson starts. Run a Five Senses Check-in to settle them.",
+      "watch_for": ["Did you frame the activity briefly before launching?", "Did you give them space to actually do it rather than rushing?", "How did you handle Sam's wriggling and Jack's 'this is boring'?"]
+    },
+    {
+      "id": "m1-friday-yr10-fizz",
+      "title": "Friday end-of-day landing",
+      "persona_id": "class-sr-yr9",
+      "activity_id": "sensory_stomp_shake",
+      "duration_minutes": 5,
+      "brief": "Last period Friday. Year 9 maths class is fizzing - chatting, distracted, eyes on the clock. 6 minutes before the bell. Run Sensory Stomp & Shake to discharge the energy before they head out.",
+      "watch_for": ["Did you pitch it for the age (a Yr 9 won't stomp on command without buy-in)?", "Did you join in / model?", "Did you bring them back to focus at the end?"]
+    },
+    {
+      "id": "m1-pre-test-yr9",
+      "title": "Pre-test calm",
+      "persona_id": "class-sr-yr9",
+      "activity_id": "five_finger_breathing",
+      "duration_minutes": 5,
+      "brief": "Year 9 class about to sit a 30-minute science test. Some are visibly nervous (Priya), others trying to look chill (Charlotte still on phone). Run Five Finger Breathing to settle them.",
+      "watch_for": ["Did you acknowledge the nerves without amplifying them?", "Did you give clear timing for each finger?", "Did you transition them into the test calmly?"]
+    },
+    {
+      "id": "m1-post-assembly-yr2",
+      "title": "Post-assembly reset",
+      "persona_id": "class-jr-yr2",
+      "activity_id": "tense_release",
+      "duration_minutes": 6,
+      "brief": "Year 2 class came back from a noisy whole-school assembly overstimulated. They're loud, can't sit still. Theo is on the edge of tears for no clear reason. Run Tense & Release to land them.",
+      "watch_for": ["Did you lower your voice and slow your pace before starting?", "Did you adapt for Theo without singling him out?", "Did you check on the room before moving on?"]
+    },
+    {
+      "id": "m1-yr11-exam-prep",
+      "title": "Year 11 exam-prep tutorial",
+      "persona_id": "class-sr-yr11",
+      "activity_id": "what_keeps_me_well",
+      "duration_minutes": 20,
+      "brief": "Year 11 tutorial in exam term. You have 25 minutes. Run 'What keeps me well?' as a reflective exam-prep activity - they'll create something personal they can return to during the exam period.",
+      "watch_for": ["Did you set the tone seriously (not patronising)?", "Did you give enough space for genuine reflection?", "Did you handle Jordan's eye-rolls without escalating?"]
+    }
+  ],
+  "mode2": [
+    {
+      "id": "m2-wobbly-chin-mia",
+      "title": "The wobbly chin",
+      "persona_id": "jr-mia",
+      "duration_minutes": 8,
+      "brief": "Mia, Year 3, has come up to your desk during quiet reading. Her chin is wobbling. The class is reading independently - you have a few minutes. The spelling test is in 10 minutes.",
+      "watch_for": ["Did you read her state before reacting?", "Did you name and normalise the feeling before suggesting a tool?", "Did you choose an activity that fits her - and not a 20-minute one?", "Did you check in afterwards and plan what she'll do when the test starts?"]
+    },
+    {
+      "id": "m2-shutdown-tahlia",
+      "title": "The shutdown",
+      "persona_id": "sr-tahlia",
+      "duration_minutes": 8,
+      "brief": "Tahlia, Year 9, has just snapped at her friend. She's now head-down on her desk, arms folded. The class is settling around her. You have a moment to step over to her quietly.",
+      "watch_for": ["Did you approach without making her feel watched?", "Did you accept her 'leave me alone' without taking the bait?", "Did you give her time before suggesting anything?", "Did you pick something she could do at her desk without performance?"]
+    },
+    {
+      "id": "m2-cynic-marcus",
+      "title": "The cynic check-in",
+      "persona_id": "sr-marcus",
+      "duration_minutes": 10,
+      "brief": "You've been asked to do a one-on-one pastoral check-in with Marcus, Year 10. He's sat down, arms crossed, smirking. He's not in trouble - but something's clearly off and his tutor flagged him.",
+      "watch_for": ["Did you avoid taking the bait of the 'this is cringe' opener?", "Did you find a frame that respected his self-image?", "Did you get under the performance to what's actually going on?", "Did you leave him with one practical thing he might actually try?"]
+    },
+    {
+      "id": "m2-overload-ethan",
+      "title": "The corridor overload",
+      "persona_id": "sr-ethan",
+      "duration_minutes": 6,
+      "brief": "Between bells. Busy corridor. Ethan, Year 8, is pressed against the wall, hands over ears, rocking slightly. You spotted him as you walked past. The corridor will clear in about 2 minutes.",
+      "watch_for": ["Did you reduce the sensory load before doing anything else (lower voice, side-on body, no eye-contact pressure)?", "Did you give him predictability - telling him what you were going to do before doing it?", "Did you avoid jumping straight to a flash card?", "Did you stay with him without rushing the next thing?"]
+    },
+    {
+      "id": "m2-exam-stress-aroha",
+      "title": "The exam wobble",
+      "persona_id": "sr-aroha",
+      "duration_minutes": 10,
+      "brief": "Aroha, Year 12, has come to your office. Eyes red. NCEA in 3 weeks. She says she 'just can't' and hasn't slept properly in a week. You have 15 minutes.",
+      "watch_for": ["Did you sit with the catastrophising before trying to fix it?", "Did you validate the exhaustion?", "Did you pick a regulation activity that fits the moment, not all of them?", "Did you help her identify one small concrete next step (not solve her whole revision plan)?", "Did you point her to her circle of support beyond just you?"]
+    },
+    {
+      "id": "m2-redflag-jaya",
+      "title": "After-class chat (⚠ safeguarding scenario)",
+      "persona_id": "sr-redflag-jaya",
+      "duration_minutes": 10,
+      "is_red_flag": true,
+      "red_flag_type": "suicidal_ideation",
+      "consent_required": true,
+      "brief": "⚠️ This scenario contains discussion of suicidal ideation. It is designed to train your safeguarding response - NOT to be solved with a flash-card activity.\n\nJaya, Year 10, has stayed back after class. She's seems flat and asks if she can hang in your room for a bit. As the conversation unfolds, she may say something that requires you to recognise a safeguarding moment and respond - not flash-card-it-away.",
+      "watch_for": ["Did you stay warm and curious enough for her to disclose?", "Did you AVOID promising confidentiality before she said anything serious?", "Did you recognise the disclosure when it came?", "Did you validate without panicking?", "Did you name that this needs more support than just you - counsellor, safeguarding lead, parents?", "Did you stay with her until handoff rather than leaving her alone?"]
+    },
+    {
+      "id": "m2-redflag-eli",
+      "title": "Can I tell you something? (⚠ safeguarding scenario)",
+      "persona_id": "sr-redflag-eli",
+      "duration_minutes": 10,
+      "is_red_flag": true,
+      "red_flag_type": "home_concerns",
+      "consent_required": true,
+      "brief": "⚠️ This scenario contains discussion of concerning behaviour by a parent at home. It is designed to train your safeguarding response and your handling of a 'can you keep a secret?' opening.\n\nEli, Year 11, has stayed after a pastoral session. Hovers near the door. Eventually sits down and asks if he can tell you something - 'but you can't tell anyone, right?'",
+      "watch_for": ["Did you HANDLE the confidentiality question BEFORE he disclosed - explaining gently that you can't promise that if it involves his safety?", "Did you let him decide whether to continue, knowing that?", "Did you listen fully without rushing to a tool?", "Did you avoid promising things you can't deliver?", "Did you name your next steps - DSL / safeguarding lead - and offer to be alongside him through that?"]
+    }
+  ]
+}
