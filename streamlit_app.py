@@ -549,7 +549,11 @@ def _render_scenario_card(scenario: dict, mode: str) -> None:
     pills = []
     if scenario.get("is_red_flag"):
         pills.append("<span class='kb-pill redflag'>⚠ SAFEGUARDING</span>")
-    pills.append(f"<span class='kb-pill persona'>{html.escape(persona['display_name'])}</span>")
+    # Show the persona pill only for Mode 1 (class name like "A Year 4 class").
+    # For Mode 2, the student's name is already in the brief, so the pill
+    # would just duplicate it.
+    if mode == "mode1":
+        pills.append(f"<span class='kb-pill persona'>{html.escape(persona['display_name'])}</span>")
     # Only add the year pill when the display name doesn't already include it
     # (class personas like "A Year 4 class" already convey the year).
     year = persona.get("year")
