@@ -196,37 +196,25 @@ section[data-testid="stSidebar"] {
 .kb-hero h1 { margin: 0 0 8px; font-size: 2.15rem; }
 .kb-hero p { margin: 0; color: #2a4458; font-size: 1.05rem; }
 
-/* ---- Mode picker: two giant tab-buttons ---- */
-.kb-modepicker { margin: 4px 0 16px; }
-.kb-modepicker .stButton > button {
+/* ---- Mode picker: target the two pick_m* buttons via the column layout
+   that contains them. The .kb-modepicker DIV ends up as a sibling rather
+   than a parent of the buttons in Streamlit's DOM, so we scope to the
+   immediate-following columns block instead. ---- */
+.kb-modepick-anchor + div[data-testid="stHorizontalBlock"] .stButton > button {
     min-height: 110px !important;
     border-radius: 24px !important;
     border: 3px solid var(--black-blue) !important;
     font-size: 1.32rem !important;
     font-weight: 700 !important;
     padding: 22px !important;
-    box-shadow: 0 6px 0 rgba(0,31,52,0.14), 0 10px 20px rgba(0,31,52,0.08);
+    box-shadow: 0 6px 0 rgba(0,31,52,0.16), 0 10px 22px rgba(0,31,52,0.10) !important;
     transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease !important;
     white-space: normal !important;
     line-height: 1.3 !important;
 }
-.kb-modepicker .stButton > button[kind="primary"] {
-    background: var(--light-green) !important;
-    color: var(--black-blue) !important;
-    box-shadow: 0 6px 0 rgba(0,31,52,0.22), 0 10px 24px rgba(0,31,52,0.12);
-}
-.kb-modepicker .stButton > button[kind="secondary"] {
-    background: white !important;
-    color: var(--komodo-navy) !important;
-}
-.kb-modepicker .stButton > button:hover {
+.kb-modepick-anchor + div[data-testid="stHorizontalBlock"] .stButton > button:hover {
     transform: translateY(-3px);
-    box-shadow: 0 9px 0 rgba(0,31,52,0.16), 0 14px 24px rgba(0,31,52,0.12);
-    background: var(--pale-blue) !important;
-    color: var(--komodo-navy) !important;
-}
-.kb-modepicker .stButton > button[kind="primary"]:hover {
-    background: var(--pastel-green) !important;
+    box-shadow: 0 9px 0 rgba(0,31,52,0.18), 0 14px 26px rgba(0,31,52,0.14) !important;
 }
 
 /* ---- Filter row ---- */
@@ -286,10 +274,8 @@ section[data-testid="stSidebar"] {
     box-shadow: 0 5px 0 rgba(0,31,52,0.18);
 }
 
-/* ---- Outside-card buttons:
-   - default (kind=secondary): white
-   - primary (kind=primary): light-green
-   Care taken not to override card buttons above. ---- */
+/* ---- Outside-card buttons: scoped to the main content block so card
+   buttons (inside stVerticalBlockBorderWrapper) keep their own rules. ---- */
 .stApp [data-testid="stMainBlockContainer"] .stButton > button[kind="secondary"] {
     background: white !important;
     color: var(--komodo-navy) !important;
@@ -304,6 +290,46 @@ section[data-testid="stSidebar"] {
     color: var(--komodo-navy) !important;
     transform: translateY(-1px);
     box-shadow: 0 4px 0 rgba(0,31,52,0.14);
+}
+.stApp [data-testid="stMainBlockContainer"] .stButton > button[kind="primary"],
+.stApp [data-testid="stMainBlockContainer"] [data-testid="stBaseLinkButton-primary"],
+.stApp [data-testid="stMainBlockContainer"] a[data-testid="stBaseLinkButton-primary"] {
+    background: var(--light-green) !important;
+    color: var(--black-blue) !important;
+    border: 3px solid var(--black-blue) !important;
+    border-radius: 30px !important;
+    font-weight: 700 !important;
+    padding: 10px 22px !important;
+    text-decoration: none !important;
+    box-shadow: 0 3px 0 rgba(0,31,52,0.16);
+    transition: background 0.15s ease, transform 0.1s ease;
+}
+.stApp [data-testid="stMainBlockContainer"] .stButton > button[kind="primary"]:hover,
+.stApp [data-testid="stMainBlockContainer"] a[data-testid="stBaseLinkButton-primary"]:hover {
+    background: var(--pastel-green) !important;
+    color: var(--black-blue) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 0 rgba(0,31,52,0.18);
+}
+/* When the mode picker primary button is active, show a ✓ in the corner */
+.kb-modepick-anchor + div[data-testid="stHorizontalBlock"] .stButton > button[kind="primary"]::after {
+    content: ' ✓';
+    font-size: 1.2rem;
+    margin-left: 6px;
+}
+
+/* ---- Strong subtitle under the mode picker ---- */
+.kb-mode-subtitle {
+    background: white;
+    border: 2.5px solid var(--black-blue);
+    border-left: 8px solid var(--komodo-blue);
+    border-radius: 14px;
+    padding: 14px 20px;
+    margin: 14px 0 18px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--komodo-navy);
+    box-shadow: 0 3px 0 rgba(0,31,52,0.10);
 }
 
 /* Pills */
@@ -627,7 +653,10 @@ if page.startswith("🎤"):
         )
 
         # ----- Mode picker as two giant buttons -----
-        st.markdown("<div class='kb-modepicker'>", unsafe_allow_html=True)
+        # The anchor div is used as a sibling selector hook in CSS so we can
+        # style only the modepicker's columns block without affecting other
+        # st.columns elements lower on the page.
+        st.html("<div class='kb-modepick-anchor'></div>")
         mc1, mc2 = st.columns(2, gap="medium")
         with mc1:
             active = st.session_state.mode_choice == "mode1"
@@ -649,10 +678,10 @@ if page.startswith("🎤"):
             ):
                 st.session_state.mode_choice = "mode2"
                 st.rerun()
-        st.markdown("</div>", unsafe_allow_html=True)
-
         mode = st.session_state.mode_choice
-        st.caption(MODE_SUBTITLES[mode])
+        st.html(
+            f"<div class='kb-mode-subtitle'>{html.escape(MODE_SUBTITLES[mode])}</div>"
+        )
 
         st.markdown("<div style='height:14px;'></div>", unsafe_allow_html=True)
 
