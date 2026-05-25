@@ -822,14 +822,15 @@ if page.startswith("🎤"):
                 st.session_state.active_session = None
                 st.rerun()
         with col_open:
-            # Same-tab navigation, but we have to break out of Streamlit's
-            # sandbox iframe (st.html wraps everything in one). target="_top"
-            # navigates the whole browser tab, so the URL bar actually shows
-            # the HF Spaces voice page domain and mic permission applies to
-            # the correct origin.
-            st.html(
-                f'<a href="{voice_url}" target="_top" class="kb-primary-link-btn">'
-                f'🎤 Open voice session ▶</a>'
+            # Use st.markdown rather than st.html so the anchor lives in the
+            # main page DOM rather than inside Streamlit's sandbox iframe.
+            # That way clicking the link navigates the whole tab (and the
+            # browser address bar correctly switches to hf.space, where the
+            # mic permission needs to be granted).
+            st.markdown(
+                f'<a href="{voice_url}" class="kb-primary-link-btn">'
+                f'🎤 Open voice session ▶</a>',
+                unsafe_allow_html=True,
             )
 
         st.markdown("<div style='height:10px;'></div>", unsafe_allow_html=True)
