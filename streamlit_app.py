@@ -775,15 +775,19 @@ if page.startswith("🎤"):
                     with cols[j]:
                         _render_scenario_card(scen, mode)
 
-    # ----- Detail view: just embed the voice page -----
+    # ----- Detail view: scenario context + voice launch -----
     else:
         active = st.session_state.active_session
+        scenario = SCENARIO_BY_ID[active["scenario_id"]]
+        persona = _persona_for(scenario)
+        mode = active["mode"]
+        activity = (
+            catalog.get_activity(scenario["activity_id"])
+            if scenario.get("activity_id") else None
+        )
         voice_url = f"{BRIDGE_URL}/voice/?session={active['session_id']}"
-        # On Streamlit Cloud the embedded iframe usually can't get mic
-        # permission across origins, so we offer the new-tab path as the
-        # reliable fallback. Locally, the embed works fine.
-        is_cloud = "streamlit.app" in (os.environ.get("HOSTNAME", "") + os.environ.get("STREAMLIT_SERVER_HEADLESS", ""))
 
+        # Top action row: back + open voice
         col_back, col_open = st.columns([1.6, 2.2])
         with col_back:
             if st.button("← Back to scenarios", use_container_width=True, type="secondary"):
@@ -797,14 +801,68 @@ if page.startswith("🎤"):
                 type="primary",
             )
 
-        st.caption(
-            "The voice page opens in a new tab. If you'd rather try it "
-            "embedded below (only works on localhost), scroll down."
+        st.markdown("<div style='height:10px;'></div>", unsafe_allow_html=True)
+
+        # Scenario hero
+        subtitle_bits = [persona["display_name"]]
+        if persona.get("year") and persona["year"].lower() not in persona["display_name"].lower():
+            subtitle_bits.append(persona["year"])
+        subtitle_bits.append(f"voice: {catalog_realtime.voice_for(persona['id'])}")
+        _hero(scenario["title"], " · ".join(subtitle_bits))
+
+        if scenario.get("is_red_flag"):
+            st.warning(
+                "⚠️ **Safeguarding scenario.** This session contains content "
+                "designed to test how you respond to a serious disclosure. "
+                "The right answer is not a flash-card activity, it's "
+                "recognising and escalating."
+            )
+
+        # Brief panel
+        st.markdown("### 📝 Scenario brief")
+        st.html(
+            f"<div class='kb-brief-panel'>{html.escape(scenario['brief'])}</div>"
         )
 
-        st.markdown("<div style='height:10px;'></div>", unsafe_allow_html=True)
-        with st.expander("Embedded voice (localhost only)", expanded=False):
-            components.iframe(voice_url, height=1100, scrolling=True)
+        # Watch-for points
+        if scenario.get("watch_for"):
+            watch_html = "".join(
+                f"<li>{html.escape(w)}</li>" for w in scenario["watch_for"]
+            )
+            st.html(
+                f"<div class='kb-watch-panel'>"
+                f"<strong>Watch-for points:</strong>"
+                f"<ul style='margin:8px 0 0; padding-left:1.4em;'>{watch_html}</ul>"
+                f"</div>"
+            )
+
+        # Activity card (Mode 1 only)
+        if activity:
+            aug = catalog.augmentation(activity.id)
+            with st.expander(f"🎴 Activity: {activity.name}", expanded=False):
+                st.markdown(f"**Objective.** {activity.objective}")
+                st.markdown(f"**Instructions.** {activity.instructions}")
+                if aug.get("best_for"):
+                    st.markdown(f"**Best for:** {', '.join(aug['best_for'])}")
+                if aug.get("fit_notes"):
+                    st.markdown(f"**Fit notes.** {aug['fit_notes']}")
+
+        # Persona detail (collapsed)
+        with st.expander("👤 Persona detail", expanded=False):
+            st.markdown(f"**{persona['display_name']}**")
+            if persona.get("profile"):
+                st.markdown(f"_{persona['profile']}_")
+            if persona.get("opening_state"):
+                st.markdown(f"**Opening state.** {persona['opening_state']}")
+            if persona.get("voice_notes"):
+                st.markdown(f"**Voice notes.** {persona['voice_notes']}")
+
+        # Embedded voice (localhost only - on cloud the iframe blocks mic)
+        st.markdown("<div style='height:14px;'></div>", unsafe_allow_html=True)
+        st.caption(
+            "Click **🎤 Open voice session ▶** above to start. The voice "
+            "page opens in a new tab where your microphone works."
+        )
 
 
 # ============================================================================
